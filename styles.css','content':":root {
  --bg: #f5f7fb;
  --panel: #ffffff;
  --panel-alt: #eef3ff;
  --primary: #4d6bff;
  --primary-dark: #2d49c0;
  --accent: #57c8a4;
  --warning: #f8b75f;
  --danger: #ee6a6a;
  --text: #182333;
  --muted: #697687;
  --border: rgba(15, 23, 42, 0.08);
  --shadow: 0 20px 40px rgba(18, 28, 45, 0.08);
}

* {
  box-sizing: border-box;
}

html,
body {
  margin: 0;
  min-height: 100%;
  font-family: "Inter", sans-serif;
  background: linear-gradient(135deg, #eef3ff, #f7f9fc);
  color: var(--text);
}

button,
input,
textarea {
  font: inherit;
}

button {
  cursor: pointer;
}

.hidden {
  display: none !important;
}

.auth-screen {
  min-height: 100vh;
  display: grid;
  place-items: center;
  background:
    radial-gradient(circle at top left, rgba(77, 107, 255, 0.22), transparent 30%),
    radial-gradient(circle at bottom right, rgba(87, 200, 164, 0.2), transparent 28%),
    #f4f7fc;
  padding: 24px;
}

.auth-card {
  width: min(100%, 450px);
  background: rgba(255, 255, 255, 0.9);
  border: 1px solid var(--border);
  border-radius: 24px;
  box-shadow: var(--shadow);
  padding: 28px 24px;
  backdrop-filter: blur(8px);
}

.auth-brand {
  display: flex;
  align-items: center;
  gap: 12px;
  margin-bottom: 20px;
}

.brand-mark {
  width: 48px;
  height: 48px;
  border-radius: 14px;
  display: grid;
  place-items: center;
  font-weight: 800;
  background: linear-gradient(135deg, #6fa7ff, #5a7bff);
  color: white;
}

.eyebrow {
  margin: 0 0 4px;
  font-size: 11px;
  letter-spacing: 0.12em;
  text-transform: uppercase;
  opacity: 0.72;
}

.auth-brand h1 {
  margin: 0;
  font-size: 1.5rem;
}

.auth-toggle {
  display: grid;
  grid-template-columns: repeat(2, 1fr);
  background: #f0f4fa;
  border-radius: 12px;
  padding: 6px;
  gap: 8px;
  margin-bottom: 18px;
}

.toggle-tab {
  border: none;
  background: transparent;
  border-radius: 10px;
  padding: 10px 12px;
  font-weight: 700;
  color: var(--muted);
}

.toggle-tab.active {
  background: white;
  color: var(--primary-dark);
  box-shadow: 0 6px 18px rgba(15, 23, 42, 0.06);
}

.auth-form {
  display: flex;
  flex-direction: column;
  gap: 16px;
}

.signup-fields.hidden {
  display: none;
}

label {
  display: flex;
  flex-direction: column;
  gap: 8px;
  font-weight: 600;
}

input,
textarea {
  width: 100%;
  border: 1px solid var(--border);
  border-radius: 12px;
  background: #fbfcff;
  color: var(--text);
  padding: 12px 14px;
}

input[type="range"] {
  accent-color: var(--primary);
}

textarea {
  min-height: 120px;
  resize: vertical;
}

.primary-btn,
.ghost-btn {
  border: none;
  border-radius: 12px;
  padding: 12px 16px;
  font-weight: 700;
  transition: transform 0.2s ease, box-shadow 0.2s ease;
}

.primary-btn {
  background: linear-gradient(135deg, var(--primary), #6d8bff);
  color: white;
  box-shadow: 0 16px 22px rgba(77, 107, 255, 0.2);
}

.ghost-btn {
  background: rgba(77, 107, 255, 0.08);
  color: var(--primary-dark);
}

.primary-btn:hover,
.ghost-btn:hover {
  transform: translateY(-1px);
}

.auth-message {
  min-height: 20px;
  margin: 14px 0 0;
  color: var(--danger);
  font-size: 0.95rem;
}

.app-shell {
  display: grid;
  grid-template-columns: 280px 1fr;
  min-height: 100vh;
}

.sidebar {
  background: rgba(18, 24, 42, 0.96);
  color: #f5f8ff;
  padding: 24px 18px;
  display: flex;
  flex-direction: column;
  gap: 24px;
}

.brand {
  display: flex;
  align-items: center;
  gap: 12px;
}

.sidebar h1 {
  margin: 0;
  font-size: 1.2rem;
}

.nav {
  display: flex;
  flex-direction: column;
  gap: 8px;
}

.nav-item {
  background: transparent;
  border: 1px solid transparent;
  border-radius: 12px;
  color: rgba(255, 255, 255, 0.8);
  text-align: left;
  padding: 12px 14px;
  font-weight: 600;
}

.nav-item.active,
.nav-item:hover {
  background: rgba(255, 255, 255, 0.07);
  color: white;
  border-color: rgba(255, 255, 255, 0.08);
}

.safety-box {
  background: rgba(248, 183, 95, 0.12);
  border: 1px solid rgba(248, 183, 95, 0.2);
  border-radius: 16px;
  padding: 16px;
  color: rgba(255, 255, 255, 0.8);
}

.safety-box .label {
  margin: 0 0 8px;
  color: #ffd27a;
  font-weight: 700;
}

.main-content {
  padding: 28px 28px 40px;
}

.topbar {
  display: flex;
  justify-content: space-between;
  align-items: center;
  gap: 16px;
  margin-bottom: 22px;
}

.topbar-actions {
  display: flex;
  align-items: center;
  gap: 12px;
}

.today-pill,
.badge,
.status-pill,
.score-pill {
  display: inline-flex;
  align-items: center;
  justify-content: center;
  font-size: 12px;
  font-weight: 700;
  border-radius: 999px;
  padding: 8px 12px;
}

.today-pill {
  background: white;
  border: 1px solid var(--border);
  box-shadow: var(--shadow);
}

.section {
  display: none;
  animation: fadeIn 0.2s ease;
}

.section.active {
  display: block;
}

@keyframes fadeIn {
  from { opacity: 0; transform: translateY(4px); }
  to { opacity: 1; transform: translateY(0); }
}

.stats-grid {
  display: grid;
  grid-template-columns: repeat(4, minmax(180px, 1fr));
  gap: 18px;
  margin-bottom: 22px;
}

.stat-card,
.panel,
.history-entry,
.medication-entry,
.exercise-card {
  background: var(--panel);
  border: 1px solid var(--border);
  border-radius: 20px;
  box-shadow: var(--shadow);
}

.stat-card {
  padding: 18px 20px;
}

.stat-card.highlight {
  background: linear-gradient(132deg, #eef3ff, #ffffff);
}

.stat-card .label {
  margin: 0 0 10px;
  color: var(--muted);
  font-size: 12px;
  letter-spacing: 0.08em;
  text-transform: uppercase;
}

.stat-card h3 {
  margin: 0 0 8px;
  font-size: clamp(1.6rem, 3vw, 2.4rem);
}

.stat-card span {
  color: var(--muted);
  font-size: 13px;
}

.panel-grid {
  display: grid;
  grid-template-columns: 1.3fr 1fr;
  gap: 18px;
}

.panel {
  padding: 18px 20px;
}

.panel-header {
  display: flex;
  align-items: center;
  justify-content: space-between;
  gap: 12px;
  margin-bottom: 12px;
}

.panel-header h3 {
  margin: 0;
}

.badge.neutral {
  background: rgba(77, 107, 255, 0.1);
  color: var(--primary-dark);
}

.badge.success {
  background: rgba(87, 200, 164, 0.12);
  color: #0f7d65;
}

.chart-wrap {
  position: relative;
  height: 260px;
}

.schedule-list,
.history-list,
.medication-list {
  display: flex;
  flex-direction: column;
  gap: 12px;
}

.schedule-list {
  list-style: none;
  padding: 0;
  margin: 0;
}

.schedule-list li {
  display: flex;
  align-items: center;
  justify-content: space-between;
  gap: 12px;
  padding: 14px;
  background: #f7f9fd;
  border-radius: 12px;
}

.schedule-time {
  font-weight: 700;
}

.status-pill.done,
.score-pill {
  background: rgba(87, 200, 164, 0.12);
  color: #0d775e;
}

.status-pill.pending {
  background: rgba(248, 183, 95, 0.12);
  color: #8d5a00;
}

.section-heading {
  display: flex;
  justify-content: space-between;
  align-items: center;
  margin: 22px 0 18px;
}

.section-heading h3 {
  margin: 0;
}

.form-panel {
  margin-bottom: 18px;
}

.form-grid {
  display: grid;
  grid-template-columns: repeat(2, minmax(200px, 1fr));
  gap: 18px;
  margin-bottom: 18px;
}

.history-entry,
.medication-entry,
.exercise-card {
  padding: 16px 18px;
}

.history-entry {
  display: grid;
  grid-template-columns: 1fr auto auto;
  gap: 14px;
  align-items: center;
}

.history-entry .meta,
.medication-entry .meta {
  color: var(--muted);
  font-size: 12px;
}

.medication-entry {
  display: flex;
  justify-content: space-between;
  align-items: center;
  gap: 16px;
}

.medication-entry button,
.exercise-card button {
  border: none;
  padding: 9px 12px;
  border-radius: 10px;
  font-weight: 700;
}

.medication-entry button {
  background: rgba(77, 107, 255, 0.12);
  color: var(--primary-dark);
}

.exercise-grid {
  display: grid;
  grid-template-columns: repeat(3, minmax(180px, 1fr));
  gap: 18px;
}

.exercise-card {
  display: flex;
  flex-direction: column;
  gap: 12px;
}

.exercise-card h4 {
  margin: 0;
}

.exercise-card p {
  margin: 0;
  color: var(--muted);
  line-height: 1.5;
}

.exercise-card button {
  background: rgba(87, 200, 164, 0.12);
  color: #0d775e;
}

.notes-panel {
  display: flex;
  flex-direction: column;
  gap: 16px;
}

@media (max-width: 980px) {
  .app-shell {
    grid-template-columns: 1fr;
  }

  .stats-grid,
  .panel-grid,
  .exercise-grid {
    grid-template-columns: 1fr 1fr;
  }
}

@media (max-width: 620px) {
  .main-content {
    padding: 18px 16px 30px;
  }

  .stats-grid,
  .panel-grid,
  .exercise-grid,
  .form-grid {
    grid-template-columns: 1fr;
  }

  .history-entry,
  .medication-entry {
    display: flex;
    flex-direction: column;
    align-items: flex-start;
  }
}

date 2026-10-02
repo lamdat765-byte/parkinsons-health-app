@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parkinson Care Companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="auth-screen" id="authScreen">
+      <div class="auth-card">
+        <div class="auth-brand">
+          <div class="brand-mark">P</div>
+          <div>
+            <p class="eyebrow">Care app</p>
+            <h1>Parkinson Companion</h1>
+          </div>
+        </div>
+
+        <div class="auth-toggle">
+          <button class="toggle-tab active" data-mode="signin">Sign in</button>
+          <button class="toggle-tab" data-mode="signup">Create account</button>
+        </div>
+
+        <form id="authForm" class="auth-form">
+          <div id="signupFields" class="signup-fields hidden">
+            <label>
+              <span>Full name</span>
+              <input type="text" id="fullName" placeholder="Enter full name" />
+            </label>
+          </div>
+
+          <label>
+            <span>Email</span>
+            <input type="email" id="email" placeholder="you@example.com" required />
+          </label>
+
+          <label>
+            <span>Password</span>
+            <input type="password" id="password" placeholder="••••••••" required />
+          </label>
+
+          <button type="submit" class="primary-btn" id="authSubmitBtn">Sign in</button>
+        </form>
+
+        <p id="authMessage" class="auth-message"></p>
+      </div>
+    </div>
+
+    <div class="app-shell hidden" id="appShell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">P</div>
+          <div>
+            <p class="eyebrow">Care app</p>
+            <h1>Parkinson Companion</h1>
+          </div>
+        </div>
+
+        <nav class="nav">
+          <button class="nav-item active" data-section="overview">Overview</button>
+          <button class="nav-item" data-section="symptoms">Symptoms</button>
+          <button class="nav-item" data-section="medications">Medications</button>
+          <button class="nav-item" data-section="exercises">Exercises</button>
+          <button class="nav-item" data-section="careTeam">Care team</button>
+        </nav>
+
+        <div class="safety-box">
+          <p class="label">Safety reminder</p>
+          <p>Keep a clear path, take regular breaks, and contact your clinic if symptoms worsen.</p>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Daily overview</p>
+            <h2 id="welcomeName">Welcome</h2>
+          </div>
+          <div class="topbar-actions">
+            <div class="today-pill" id="todayDate"></div>
+            <button id="logoutBtn" class="ghost-btn">Log out</button>
+          </div>
+        </header>
+
+        <section class="section active" id="overview">
+          <div class="stats-grid">
+            <article class="stat-card highlight">
+              <p class="label">Overall wellness</p>
+              <h3 id="wellnessScore">0%</h3>
+              <span>Based on recent symptoms and medication routine.</span>
+            </article>
+            <article class="stat-card">
+              <p class="label">Medication check</p>
+              <h3 id="medCount">0 / 0</h3>
+              <span>Today’s scheduled doses</span>
+            </article>
+            <article class="stat-card">
+              <p class="label">Exercise plan</p>
+              <h3 id="exerciseCount">0</h3>
+              <span>Completed tasks</span>
+            </article>
+            <article class="stat-card">
+              <p class="label">Symptom load</p>
+              <h3 id="symptomLoad">Low</h3>
+              <span>Across recent entries</span>
+            </article>
+          </div>
+
+          <div class="panel-grid">
+            <div class="panel">
+              <div class="panel-header">
+                <h3>Weekly trend</h3>
+                <span class="badge neutral">7-day view</span>
+              </div>
+              <div class="chart-wrap">
+                <canvas id="symptomsChart"></canvas>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-header">
+                <h3>Upcoming schedule</h3>
+                <span class="badge success">Today</span>
+              </div>
+              <ul class="schedule-list" id="scheduleList"></ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="symptoms">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Track</p>
+              <h3>Symptom journal</h3>
+            </div>
+          </div>
+
+          <div class="panel form-panel">
+            <form id="symptomForm">
+              <div class="form-grid">
+                <label>
+                  <span>Tremor</span>
+                  <input type="range" name="tremor" min="0" max="10" value="3" />
+                </label>
+                <label>
+                  <span>Stiffness</span>
+                  <input type="range" name="stiffness" min="0" max="10" value="2" />
+                </label>
+                <label>
+                  <span>Balance</span>
+                  <input type="range" name="balance" min="0" max="10" value="2" />
+                </label>
+                <label>
+                  <span>Fatigue</span>
+                  <input type="range" name="fatigue" min="0" max="10" value="4" />
+                </label>
+              </div>
+
+              <label>
+                <span>Notes</span>
+                <textarea name="notes" rows="4" placeholder="How are you feeling today?"></textarea>
+              </label>
+
+              <button type="submit" class="primary-btn">Save symptom log</button>
+            </form>
+          </div>
+
+          <div class="history-list" id="symptomHistory"></div>
+        </section>
+
+        <section class="section" id="medications">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Routine</p>
+              <h3>Medication reminders</h3>
+            </div>
+          </div>
+
+          <div class="panel form-panel">
+            <form id="medicationForm">
+              <div class="form-grid">
+                <label>
+                  <span>Medication</span>
+                  <input type="text" name="name" placeholder="Medication name" required />
+                </label>
+                <label>
+                  <span>Dosage</span>
+                  <input type="text" name="dosage" placeholder="e.g. 25 mg" />
+                </label>
+                <label>
+                  <span>Time</span>
+                  <input type="time" name="time" required />
+                </label>
+                <label>
+                  <span>Notes</span>
+                  <input type="text" name="note" placeholder="With food / before breakfast" />
+                </label>
+              </div>
+              <button type="submit" class="primary-btn">Add reminder</button>
+            </form>
+          </div>
+
+          <div class="medication-list" id="medicationList"></div>
+        </section>
+
+        <section class="section" id="exercises">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Movement</p>
+              <h3>Exercise plan</h3>
+            </div>
+          </div>
+
+          <div class="panel form-panel">
+            <form id="exerciseForm">
+              <div class="form-grid">
+                <label>
+                  <span>Exercise</span>
+                  <input type="text" name="exerciseName" placeholder="e.g. Balance walk" required />
+                </label>
+                <label>
+                  <span>Duration</span>
+                  <input type="text" name="duration" placeholder="15 min" required />
+                </label>
+              </div>
+              <button type="submit" class="primary-btn">Add exercise</button>
+            </form>
+          </div>
+
+          <div class="exercise-grid" id="exerciseList"></div>
+        </section>
+
+        <section class="section" id="careTeam">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Support</p>
+              <h3>Care team notes</h3>
+            </div>
+          </div>
+
+          <div class="panel notes-panel">
+            <textarea id="careNotes" rows="10" placeholder="Add notes for your clinician, caregiver, or support team..."></textarea>
+            <button id="saveNotesBtn" class="primary-btn">Save notes</button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
